@@ -1,0 +1,454 @@
+<main
+  class="lg:flex max-w-4xl lg:p-4 mx-auto h-[580px] lg:bg-white lg:rounded-lg bg-blue-200 lg:min-w-[900px]"
+>
+  <!-- Sidebar image -->
+  <div
+    class="lg:flex-shrink-0 lg:rounded-lg bg-sidebar bg-no-repeat bg-cover bg-bottom h-[150px] lg:w-[30%] lg:h-full"
+  >
+    <div class="flex items-center justify-center w-full p-9 lg:justify-between">
+      <div class="flex flex-row lg:flex-col gap-2 lg:gap-4">
+        <!-- Step 1 button -->
+        <div class="flex items-center gap-3">
+          <button
+            [ngClass]="{
+              'bg-blue-200 text-blue-950': currentStep === 1,
+              'border border-white text-white': currentStep !== 1
+            }"
+            class="rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            1
+          </button>
+          <div class="hidden lg:block">
+            <p class="font-body text-white font-thin">STEP 1</p>
+            <p class="font-body text-white font-bold">YOUR INFO</p>
+          </div>
+        </div>
+
+        <!-- Step 2 button -->
+        <div class="flex items-center gap-3">
+          <button
+            [ngClass]="{
+              'bg-blue-200 text-blue-950': currentStep === 2,
+              'border border-white text-white': currentStep !== 2
+            }"
+            class="rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            2
+          </button>
+          <div class="hidden lg:block">
+            <p class="font-body text-white font-thin">STEP 2</p>
+            <p class="font-body text-white font-bold">SELECT PLAN</p>
+          </div>
+        </div>
+
+        <!-- Step 3 button -->
+        <div class="flex items-center gap-3">
+          <button
+            [ngClass]="{
+              'bg-blue-200 text-blue-950': currentStep === 3,
+              'border border-white text-white': currentStep !== 3
+            }"
+            class="rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            3
+          </button>
+          <div class="hidden lg:block">
+            <p class="font-body text-white font-thin">STEP 3</p>
+            <p class="font-body text-white font-bold">ADD-ONS</p>
+          </div>
+        </div>
+
+        <!-- Step 4 button -->
+        <div class="flex items-center gap-3">
+          <button
+            [ngClass]="{
+              'bg-blue-200 text-blue-950': currentStep === 4,
+              'border border-white text-white': currentStep !== 4
+            }"
+            class="rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            4
+          </button>
+          <div class="hidden lg:block">
+            <p class="font-body text-white font-thin">STEP 4</p>
+            <p class="font-body text-white font-bold">SUMMARY</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- main content -->
+  <div class="relative lg:flex-shrink-0 lg:w-[70%]">
+    <section
+      *ngIf="currentStep === 1"
+      class="mx-auto w-[90%] lg:w-full absolute right-0 left-0 top-[-70px] bg-white py-7 px-7 lg:px-16 rounded-lg shadow-xl lg:static lg:shadow-none"
+    >
+      <div>
+        <p class="text-xl font-bold text-blue-950">Personal Info</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-gray-500">
+          Please provide your name, email address and phone number.
+        </p>
+      </div>
+
+      <div>
+        <form action="">
+          <div class="mt-4">
+            <div class="flex justify-between">
+              <label for="name" class="mb-2 text-sm text-blue-950" for=""
+                >Name</label
+              >
+              <span
+                *ngIf="submitted && !name"
+                class="text-red-500 text-xs font-medium"
+              >
+                This field is required
+              </span>
+            </div>
+            <input
+              id="name"
+              [(ngModel)]="name"
+              name="name"
+              [ngClass]="{ 'border-red-500': submitted && !name }"
+              type="text"
+              class="w-full border border-gray-200 text-blue-950 font-medium py-2 pl-4 rounded-sm focus:border-red-500 focus:ring-0"
+              placeholder="e.g. Stephen King"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="mt-4">
+            <div class="flex justify-between">
+              <label for="email" class="mb-2 text-sm text-blue-950"
+                >Email Address</label
+              >
+              <span
+                *ngIf="submitted && !email"
+                class="text-red-500 text-xs font-medium"
+              >
+                This field is required
+              </span>
+              <span
+                *ngIf="submitted && email && !isEmailValid()"
+                class="text-red-500 text-xs font-medium"
+              >
+                Please enter a valid email
+              </span>
+            </div>
+            <input
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              [ngClass]="{
+                'border-red-500': submitted && (!email || !isEmailValid())
+              }"
+              type="email"
+              class="w-full border border-gray-200 text-blue-950 font-medium py-2 pl-4 rounded-sm focus:border-red-500 focus:ring-0"
+              placeholder="e.g. stephenking@lorem.com"
+            />
+          </div>
+
+          <!-- Phone -->
+          <div class="mt-4">
+            <div class="flex justify-between">
+              <label for="phone" class="mb-2 text-sm text-blue-950"
+                >Phone number</label
+              >
+              <span
+                *ngIf="submitted && !phone"
+                class="text-red-500 text-xs font-medium"
+              >
+                This field is required
+              </span>
+              <span
+                *ngIf="submitted && phone && !isPhoneValid()"
+                class="text-red-500 text-xs font-medium"
+              >
+                Please enter a valid phone number
+              </span>
+            </div>
+            <input
+              id="phone"
+              [(ngModel)]="phone"
+              name="phone"
+              [ngClass]="{
+                'border-red-500': submitted && (!phone || !isPhoneValid())
+              }"
+              type="text"
+              class="w-full border border-gray-200 text-blue-950 font-medium py-2 pl-4 rounded-sm focus:border-red-500 focus:ring-0"
+              placeholder="e.g. +1 234 567 890"
+            />
+          </div>
+
+          <div
+            class="lg:px-9 absolute bottom-[-110px] right-0 lg:bottom-0 lg:right-5 flex justify-end w-full lg:w-[90%]"
+          >
+            <button
+              class="py-2 px-4 bg-blue-950 text-white rounded"
+              type="submit"
+              (click)="onNext()"
+            >
+              Next step
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section
+      *ngIf="currentStep === 2"
+      class="mx-auto w-[90%] lg:w-full lg:mx-0 absolute right-0 left-0 top-[-70px] bg-white py-7 px-7 lg:px-16 rounded-lg shadow-xl lg:static lg:shadow-none"
+    >
+      <div>
+        <p class="text-xl font-bold text-blue-950">Select your plan</p>
+      </div>
+
+      <div class="mt-2">
+        <p class="text-sm text-gray-500">
+          You have the option of monthly or yearly billing.
+        </p>
+      </div>
+
+      <!-- Plan Options -->
+      <div class="mt-6 flex flex-col lg:flex-row gap-2 lg:justify-between">
+        <label
+          *ngFor="let plan of plans"
+          class="border rounded-lg p-4 lg:p-3 lg:pr-5 lg:w-[150px] cursor-pointer flex flex-col gap-2 hover:border-blue-950"
+          [ngClass]="{
+            'border-blue-950 bg-blue-50': selectedPlan === plan.value
+          }"
+        >
+          <div
+            class="flex items-start gap-3 lg:flex-col lg:items-start lg:gap-5 lg:h-[120px]"
+          >
+            <div>
+              <img
+                [src]="'assets/images/' + plan.icon"
+                [alt]="plan.name + ' icon'"
+                class="w-[35px] h-[35px]"
+              />
+            </div>
+            <div>
+              <p class="font-medium">{{ plan.name }}</p>
+
+              <!-- Price -->
+              <p class="text-gray-500 text-sm">
+                {{ isYearly ? plan.yearlyPrice : plan.monthlyPrice }}
+              </p>
+
+              <!-- ✅ Show only when Yearly -->
+              <p *ngIf="isYearly" class="text-xs text-blue-950 font-semibold">
+                2 months free
+              </p>
+            </div>
+          </div>
+          <input
+            type="radio"
+            name="plan"
+            class="hidden"
+            [(ngModel)]="selectedPlan"
+            [value]="plan.value"
+          />
+        </label>
+      </div>
+
+      <div
+        class="flex justify-center items-center gap-4 bg-blue-50 rounded-lg mt-6 p-3"
+      >
+        <span class="text-blue-950" [class.font-bold]="!isYearly">Monthly</span>
+
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" [(ngModel)]="isYearly" />
+
+          <div
+            class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-blue-950 transition-all duration-300"
+          ></div>
+
+          <div
+            class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all duration-300 peer-checked:translate-x-5"
+          ></div>
+        </label>
+
+        <span class="text-blue-950" [class.font-bold]="isYearly">Yearly</span>
+      </div>
+
+      <!-- ✅ Buttons -->
+      <div
+        class="lg:px-9 absolute bottom-[-110px] right-0 lg:bottom-0 lg:right-5 flex justify-between w-full lg:w-[90%]"
+      >
+        <button
+          class="text-gray-500 hover:underline"
+          type="button"
+          (click)="goToStep(1)"
+        >
+          Go Back
+        </button>
+
+        <button
+          class="py-2 px-4 bg-blue-950 text-white rounded"
+          type="button"
+          (click)="onNext()"
+        >
+          Next step
+        </button>
+      </div>
+    </section>
+
+    <section
+      *ngIf="currentStep === 3"
+      class="mx-auto w-[90%] lg:w-full lg:mx-0 absolute right-0 left-0 top-[-70px] bg-white py-7 px-7 lg:px-16 rounded-lg shadow-xl lg:static lg:shadow-none"
+    >
+      <div>
+        <p class="text-xl font-bold text-blue-950">Pick Add-ons</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-gray-500">
+          Add-ons help enhance your gaming experience.
+        </p>
+      </div>
+
+      <!-- ✅ Add-ons list -->
+      <div class="mt-6 flex flex-col gap-3">
+        <label
+          *ngFor="let addOn of addOns"
+          class="border rounded-lg p-4 flex items-center gap-4 cursor-pointer hover:border-purple-600"
+          [ngClass]="{ 'border-purple-600 bg-blue-50': addOn.selected }"
+        >
+          <input type="checkbox" [(ngModel)]="addOn.selected" class="w-5 h-5" />
+
+          <div class="flex-1">
+            <p class="text-blue-950 text-sm font-medium">{{ addOn.name }}</p>
+            <p class="text-gray-500 text-sm">{{ addOn.description }}</p>
+          </div>
+
+          <p class="text-blue-950 font-medium">
+            {{ isYearly ? addOn.yearly : addOn.monthly }}
+          </p>
+        </label>
+      </div>
+
+      <!-- Buttons -->
+      <div
+        class="lg:px-9 absolute bottom-[-110px] right-0 lg:bottom-0 lg:right-5 flex justify-between w-full lg:w-[90%]"
+      >
+        <button
+          class="text-gray-500 hover:underline"
+          type="button"
+          (click)="goToStep(2)"
+        >
+          Go Back
+        </button>
+
+        <button
+          class="py-2 px-4 bg-blue-950 text-white rounded"
+          type="button"
+          (click)="onNext()"
+        >
+          Next step
+        </button>
+      </div>
+    </section>
+
+    <section
+      *ngIf="currentStep === 4"
+      class="mx-auto w-[90%] lg:w-full lg:mx-0 absolute right-0 left-0 top-[-70px] bg-white py-7 px-7 lg:px-16 rounded-lg shadow-xl lg:static lg:shadow-none"
+    >
+      <div>
+        <p class="text-xl font-bold text-blue-950">Finishing up</p>
+      </div>
+
+      <div class="mt-2">
+        <p class="text-sm text-gray-500">
+          Double-check everything looks OK before confirming.
+        </p>
+      </div>
+
+      <!-- Summary Box -->
+      <div class="bg-blue-50 rounded-lg p-4 mt-6">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="font-medium">{{ selectedPlanObj?.name }}</p>
+            <button
+              class="text-sm underline text-gray-500"
+              type="button"
+              (click)="goToStep(2)"
+            >
+              Change
+            </button>
+          </div>
+
+          <p class="font-medium">
+            {{
+              isYearly
+                ? selectedPlanObj?.yearlyPrice
+                : selectedPlanObj?.monthlyPrice
+            }}
+          </p>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- Selected Add-ons -->
+        <div *ngFor="let addon of selectedAddOns" class="flex justify-between">
+          <p class="text-gray-500 text-sm">{{ addon.name }}</p>
+          <p class="text-blue-950 font-medium text-sm">
+            {{ isYearly ? addon.yearly : addon.monthly }}
+          </p>
+        </div>
+      </div>
+
+      <!-- TOTAL -->
+      <div class="flex justify-between items-center p-4 mt-4">
+        <p class="text-gray-500 text-sm">
+          Total (per {{ isYearly ? "year" : "month" }})
+        </p>
+
+        <p class="text-blue-700 font-bold text-lg">+{{ getTotal() }}</p>
+      </div>
+
+      <!-- Buttons -->
+      <div
+        class="lg:px-9 absolute bottom-[-110px] right-0 lg:bottom-0 lg:right-5 flex justify-between w-full lg:w-[90%]"
+      >
+        <button
+          class="text-gray-500 hover:underline"
+          type="button"
+          (click)="goToStep(3)"
+        >
+          Go Back
+        </button>
+
+        <button
+          class="py-2 px-6 bg-blue-700 text-white rounded"
+          type="button"
+          (click)="onNext()"
+        >
+          Confirm
+        </button>
+      </div>
+    </section>
+
+    <section
+      *ngIf="currentStep === 5"
+      class="flex justify-center items-center flex-col lg:h-full mx-auto w-[90%] lg:w-full lg:mx-0 absolute right-0 left-0 top-[-70px] bg-white py-10 px-7 lg:px-16 rounded-lg shadow-xl lg:static lg:shadow-none text-center"
+    >
+      <img
+        src="assets/images/icon-thank-you.svg"
+        alt="Thank You"
+        class="mx-auto mb-4 w-20 h-20"
+      />
+
+      <p class="text-2xl font-bold text-blue-950 mb-2">Thank you!</p>
+
+      <p class="text-gray-500 text-sm">
+        Thanks for confirming your subscription! We hope you have fun using our
+        platform. If you ever need support, please feel free to email us at
+        kortbuset&#64;gmail.com.
+      </p>
+    </section>
+  </div>
+</main>
